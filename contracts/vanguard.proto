@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package vanguard;
+
+option go_package = "github.com/akatsuki333/vanguard/hermes/proto;vanguardpb";
+
+// ---------------------------------------------------------------------------
+// Vanguard contract — message definitions shared by Gedo, Hermes, and Aurora
+// ---------------------------------------------------------------------------
+
+// A single agent registered with Hermes.
+message Agent {
+  string id = 1;
+  string name = 2;
+  string runtime = 3;          // e.g. "aurora", "local"
+  string endpoint = 4;        // gRPC or WebSocket address
+  repeated string capabilities = 5;
+}
+
+// Request to execute a task on a target agent.
+message ExecutionRequest {
+  string agent_id = 1;
+  string task_id = 2;
+  string task_type = 3;         // e.g. "llm_completion", "voice_command"
+  bytes payload = 4;           // arbitrary JSON or binary payload
+  map<string, string> metadata = 5;
+}
+
+// Result of an execution.
+message ExecutionResult {
+  string task_id = 1;
+  bool success = 2;
+  bytes output = 3;
+  string error = 4;
+  int64 duration_ms = 5;
+}
+
+// Cancellation request.
+message CancelRequest {
+  string task_id = 1;
+  string reason = 2;
+}
+
+// Cancellation response.
+message CancelResponse {
+  string task_id = 1;
+  bool cancelled = 2;
+  string message = 3;
+}
+
+// Health check.
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+  string version = 2;
+}
+
+// ---------------------------------------------------------------------------
+// HermesAgentService — gRPC service definition
+// ---------------------------------------------------------------------------
+
+service HermesAgentService {
+  rpc RegisterAgent(Agent) returns (Agent);
+  rpc ListAgents(HealthRequest) returns (AgentList);
+  rpc Execute(ExecutionRequest) returns (ExecutionResult);
+  rpc Cancel(CancelRequest) returns (CancelResponse);
+  rpc Health(HealthRequest) returns (HealthResponse);
+}
+
+message AgentList {
+  repeated Agent agents = 1;
+}

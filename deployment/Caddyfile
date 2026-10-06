@@ -1,0 +1,35 @@
+# Vanguard Caddyfile — reverse proxy configuration
+#
+# Routes traffic to Gedo (API gateway) and Aurora (WebSocket execution).
+# Hermes is gRPC (internal, not proxied through Caddy).
+
+{
+	# Global options
+	admin off
+	log {
+		level INFO
+	}
+}
+
+:8080 {
+	# API routes → Gedo FastAPI
+	handle /api/* {
+		rewrite * /api{path}
+		reverse_proxy gedo:8000
+	}
+
+	# WebSocket routes → Aurora
+	handle /ws/* {
+		reverse_proxy aurora:8001
+	}
+
+	# Health check
+	handle /health {
+		reverse_proxy gedo:8000
+	}
+
+	# Default fallback
+	handle {
+		respond "Vanguard Multi-Agent System" 200
+	}
+}

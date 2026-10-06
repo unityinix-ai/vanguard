@@ -1,0 +1,51 @@
+# Vanguard Multi-Agent System — Docker Compose
+#
+# Three services:
+#   gedo   — FastAPI gateway and orchestration (port 8000)
+#   hermes — gRPC agent runtime (port 50051)
+#   aurora — WebSocket LLM execution backbone (port 8001)
+#   caddy  — reverse proxy (port 8080)
+
+services:
+  gedo:
+    build:
+      context: ./gedo
+    container_name: vanguard-gedo
+    ports:
+      - "8000:8000"
+    environment:
+      - HERMES_HOST=hermes
+      - HERMES_PORT=50051
+    depends_on:
+      - hermes
+    restart: unless-stopped
+
+  hermes:
+    build:
+      context: ./hermes
+    container_name: vanguard-hermes
+    ports:
+      - "50051:50051"
+    restart: unless-stopped
+
+  aurora:
+    build:
+      context: ./aurora
+    container_name: vanguard-aurora
+    ports:
+      - "8001:8001"
+    environment:
+      - GUARD_MAX_PAYLOAD_BYTES=10485760
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: vanguard-caddy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./deployment/Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - gedo
+      - aurora
+    restart: unless-stopped
