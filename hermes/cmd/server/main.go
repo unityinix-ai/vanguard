@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"flag"
 	"log"
 	"net"
@@ -10,8 +11,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/akatsuki333/vanguard/hermes/internal/agents"
-	"github.com/akatsuki333/vanguard/hermes/internal/service"
+	"github.com/unityinix-ai/vanguard/hermes/internal/agents"
+	"github.com/unityinix-ai/vanguard/hermes/internal/service"
 )
 
 func main() {
@@ -36,11 +37,13 @@ func main() {
 	// Create the Hermes service
 	svc := service.NewHermesAgentService(registry, service.DefaultHandler)
 
-	// Start TCP listener
+	// Start TCP listener (skeleton — gRPC server registration requires
+	// generated protobuf stubs from contracts/vanguard.proto; see contracts/README.md)
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("Failed to listen on %s: %v", addr, err)
 	}
+	defer lis.Close()
 
 	log.Printf("Hermes agent service starting on %s", addr)
 	log.Printf("Registered %d agent(s)", registry.Count())
@@ -63,6 +66,7 @@ func main() {
 	}()
 
 	// Keep the server running until context is cancelled
+	// In production, replace with: grpcServer.Serve(lis) using generated stubs
 	<-ctx.Done()
 	log.Println("Hermes server stopped")
 }

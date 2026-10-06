@@ -12,9 +12,8 @@
 }
 
 :8080 {
-	# API routes → Gedo FastAPI
-	handle /api/* {
-		rewrite * /api{path}
+	# API routes → Gedo FastAPI (strips /api prefix)
+	handle_path /api/* {
 		reverse_proxy gedo:8000
 	}
 

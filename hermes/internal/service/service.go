@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/akatsuki333/vanguard/hermes/internal/agents"
+	"github.com/unityinix-ai/vanguard/hermes/internal/agents"
 )
 
 // ExecutionRequest is a request to execute a task on a target agent.

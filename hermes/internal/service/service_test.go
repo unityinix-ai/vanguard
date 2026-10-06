@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/akatsuki333/vanguard/hermes/internal/agents"
+	"github.com/unityinix-ai/vanguard/hermes/internal/agents"
 )
 
 func TestExecuteSuccess(t *testing.T) {

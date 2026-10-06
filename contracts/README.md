@@ -13,8 +13,8 @@ Shared Protocol Buffers definitions for the Vanguard Multi-Agent System.
 
 ```bash
 protoc --go_out=. --go-grpc_out=. \
-  --go_opt=module=github.com/akatsuki333/vanguard \
-  --go-grpc_opt=module=github.com/akatsuki333/vanguard \
+  --go_opt=module=github.com/unityinix-ai/vanguard \
+  --go-grpc_opt=module=github.com/unityinix-ai/vanguard \
   contracts/vanguard.proto
 ```
 

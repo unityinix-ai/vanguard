@@ -1,4 +1,4 @@
-module github.com/akatsuki333/vanguard/hermes
+module github.com/unityinix-ai/vanguard/hermes
 
 go 1.22
 

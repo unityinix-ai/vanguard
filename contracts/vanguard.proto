@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package vanguard;
 
-option go_package = "github.com/akatsuki333/vanguard/hermes/proto;vanguardpb";
+option go_package = "github.com/unityinix-ai/vanguard/hermes/proto;vanguardpb";
 
 // ---------------------------------------------------------------------------
 // Vanguard contract — message definitions shared by Gedo, Hermes, and Aurora

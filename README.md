@@ -108,15 +108,15 @@ pytest
 ```bash
 cd hermes
 go test ./...
-go run ./cmd/server
+go run github.com/unityinix-ai/vanguard/hermes/cmd/server
 ```
 
 ### Aurora (Python)
 
 ```bash
 cd aurora
-pip install -e ".[dev]"
-pytest
+pip install -e .
+PYTHONPATH=app python -m pytest tests/ -v
 ```
 
 ## Configuration
@@ -131,4 +131,4 @@ LLM_MODEL=gpt-4
 
 ## License
 
-Organization: akatsuki333
+Organization: unityinix-ai

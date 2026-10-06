@@ -3,7 +3,7 @@
 
 [Unit]
 Description=Vanguard Multi-Agent System
-Documentation=https://github.com/akatsuki333/vanguard
+Documentation=https://github.com/unityinix-ai/vanguard
 After=docker.service
 Requires=docker.service
 
