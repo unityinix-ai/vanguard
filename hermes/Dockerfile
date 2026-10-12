@@ -16,4 +16,4 @@ COPY --from=builder /hermes-server /app/hermes-server
 
 EXPOSE 50051
 
-CMD ["/app/hermes-server"]
+CMD ["sh", "-c", "/app/hermes-server --port ${PORT:-50051}"]
